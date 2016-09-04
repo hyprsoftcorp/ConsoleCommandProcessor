@@ -29,8 +29,9 @@ static void Main(string[] args)
 
     Task.Run(async () => await manager.RunAsync()).Wait();
 }
-}
 ```
+
+For a slightly more involved sample, refer to the [ConsoleCommandProcessor.Sample](https://github.com/hyprsoftcorp/ConsoleCommandProcessor/tree/master/ConsoleCommandProcessor.Sample) project.
 
 ## Hello World Screenshot
 ![alt text](https://raw.github.com/hyprsoftcorp/consolecommandprocessor/master/hello-world-screenshot.png "Hello World Screenshot")
