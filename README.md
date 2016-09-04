@@ -13,7 +13,7 @@ static void Main(string[] args)
 
     manager.AddCommand("speak", new Command
     {
-        Description = "Outputs the word parameter to the console window.",
+        Description = "Outputs the phrase parameter to the console window.",
         Execute = command =>
         {
             Console.WriteLine($"{command.GetParameter("phrase").Value}");
@@ -28,6 +28,7 @@ static void Main(string[] args)
     });
 
     Task.Run(async () => await manager.RunAsync()).Wait();
+}
 }
 ```
 
