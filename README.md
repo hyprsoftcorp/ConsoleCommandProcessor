@@ -17,14 +17,14 @@ static void Main(string[] args)
         Description = "Outputs the word parameter to the console window.",
         Execute = command =>
         {
-            Console.WriteLine($"{command.GetParameter("word").Value}");
+            Console.WriteLine($"{command.GetParameter("phrase").Value}");
             return Task.FromResult(0);
         }
-    }).AddParameter("word", new Parameter
+    }).AddParameter("phrase", new Parameter
     {
-        Prompt = "Word",
-        Description = "The word to output to the console window.",
-        CantValidateMessage = "Word cannot be null or whitespace.",
+        Prompt = "Phrase",
+        Description = "The phrase to output to the console window.",
+        CantValidateMessage = "Phrase cannot be null or whitespace.",
         Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
     });
 
