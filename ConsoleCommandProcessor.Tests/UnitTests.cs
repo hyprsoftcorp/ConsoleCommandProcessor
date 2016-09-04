@@ -13,14 +13,14 @@ namespace ConsoleCommandProcessor.Tests
         {
             var manager = new CommandManager();
 
-            Assert.AreEqual(manager.ApplicationCompany, "Hyprsoft Corporation");
-            Assert.AreEqual(manager.ApplicationVersion, new System.Version("1.0.0.0"));
-            Assert.AreEqual(manager.ApplicationTitle, "Console Command Processor Library");
+            Assert.AreEqual(manager.AppCompany, "Hyprsoft Corporation");
+            Assert.AreEqual(manager.AppVersion, new System.Version("1.0.0.0"));
+            Assert.AreEqual(manager.AppTitle, "Console Command Processor Library");
 
             Assert.AreEqual(3, manager.Commands.Count);
-            Assert.IsNotNull(manager.GetCommand(CommandManager.HelpCommandName));
-            Assert.IsNotNull(manager.GetCommand(CommandManager.ClearCommandName));
-            Assert.IsNotNull(manager.GetCommand(CommandManager.ExitCommandName));
+            Assert.AreEqual(CommandManager.HelpCommandName, manager.GetCommand(CommandManager.HelpCommandName).Name);
+            Assert.AreEqual(CommandManager.ClearCommandName, manager.GetCommand(CommandManager.ClearCommandName).Name);
+            Assert.AreEqual(CommandManager.ExitCommandName, manager.GetCommand(CommandManager.ExitCommandName).Name);
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace ConsoleCommandProcessor.Tests
             manager.AddCommand(TestCommandName, new Command());
             Assert.AreEqual(4, manager.Commands.Count);
             Assert.IsNotNull(manager.GetCommand(TestCommandName));
-            manager.RemoveCommand(TestCommandName);
+            Assert.AreEqual(TestCommandName, manager.RemoveCommand(TestCommandName).Name);
             Assert.AreEqual(3, manager.Commands.Count);
             Assert.IsNull(manager.GetCommand(TestCommandName));
 
@@ -49,10 +49,11 @@ namespace ConsoleCommandProcessor.Tests
         {
             var command = new Command();
 
+            Assert.IsNull(command.Name);
             Assert.IsNull(command.Description);
-            Assert.IsNull(command.CanExecute);
+            Assert.IsNotNull(command.CanExecute);
             Assert.IsNull(command.CantExecuteMessage);
-            Assert.IsNull(command.Execute);
+            Assert.IsNotNull(command.Execute);
             Assert.AreEqual(0, command.Parameters.Count);
             Assert.IsTrue(await command.ValidateAsync());
             await command.ExecuteAsync();
@@ -69,7 +70,6 @@ namespace ConsoleCommandProcessor.Tests
             command = new Command
             {
                 Description = "Test Command Description",
-                CanExecute = () => true,
                 CantExecuteMessage = "Test Command Invalid",
                 Execute = c =>
                 {
@@ -78,19 +78,20 @@ namespace ConsoleCommandProcessor.Tests
                 }
             }.AddParameter(TestParameter1Name, new Parameter()).AddParameter(TestParameter2Name, new Parameter());
 
+            Assert.IsNull(command.Name);
             Assert.IsNotNull(command.Description);
             Assert.IsNotNull(command.CanExecute);
             Assert.IsNotNull(command.CantExecuteMessage);
             Assert.IsNotNull(command.Execute);
             Assert.AreEqual(2, command.Parameters.Count);
-            Assert.IsNotNull(command.GetParameter(TestParameter1Name));
-            Assert.IsNotNull(command.GetParameter(TestParameter2Name));
+            Assert.AreEqual(TestParameter1Name, command.GetParameter(TestParameter1Name).Name);
+            Assert.AreEqual(TestParameter2Name, command.GetParameter(TestParameter2Name).Name);
             Assert.IsTrue(await command.ValidateAsync());
             await command.ExecuteAsync();
             Assert.AreEqual(command, executeFuncParamValue);
 
-            Assert.IsNotNull(command.RemoveParamter(TestParameter1Name));
-            Assert.IsNotNull(command.RemoveParamter(TestParameter2Name));
+            Assert.AreEqual(TestParameter1Name, command.RemoveParamter(TestParameter1Name).Name);
+            Assert.AreEqual(TestParameter2Name, command.RemoveParamter(TestParameter2Name).Name);
             Assert.IsNull(command.RemoveParamter("bad"));
             Assert.AreEqual(0, command.Parameters.Count);
         }
@@ -109,13 +110,14 @@ namespace ConsoleCommandProcessor.Tests
         {
             var parameter = new Parameter();
 
+            Assert.IsNull(parameter.Name);
             Assert.IsTrue(parameter.IsRequired);
             Assert.IsFalse(parameter.IsPassword);
             Assert.IsNull(parameter.Prompt);
             Assert.IsNull(parameter.Description);
-            Assert.IsNull(parameter.ValidateFailedMessage);
+            Assert.IsNull(parameter.CantValidateMessage);
             Assert.IsNull(parameter.Value);
-            Assert.IsNull(parameter.Validate);
+            Assert.IsNotNull(parameter.Validate);
             Assert.IsTrue(await parameter.ValidateAsync());
         }
 
@@ -132,7 +134,7 @@ namespace ConsoleCommandProcessor.Tests
                 IsPassword = true,
                 Prompt = "Test",
                 Description = "Test Parameter",
-                ValidateFailedMessage = "Bad Parameter",
+                CantValidateMessage = "Bad Parameter",
                 Value = TestParameterValue,
                 Validate = value =>
                 {
@@ -140,21 +142,16 @@ namespace ConsoleCommandProcessor.Tests
                     return Task.FromResult(true);
                 }
             };
+            Assert.IsNull(parameter.Name);
             Assert.IsFalse(parameter.IsRequired);
             Assert.IsTrue(parameter.IsPassword);
             Assert.IsNotNull(parameter.Prompt);
             Assert.IsNotNull(parameter.Description);
-            Assert.IsNotNull(parameter.ValidateFailedMessage);
+            Assert.IsNotNull(parameter.CantValidateMessage);
             Assert.AreEqual(TestParameterValue, parameter.Value);
             Assert.IsNotNull(parameter.Validate);
             Assert.IsTrue(await parameter.ValidateAsync());
             Assert.AreEqual(TestParameterValue, validateFuncParamValue);
-
-            parameter = new Parameter
-            {
-                Validate = value => Task.FromResult(false)
-            };
-            Assert.IsFalse(await parameter.ValidateAsync());
         }
 
         [TestMethod, ExpectedException(typeof(DuplicateNameException))]

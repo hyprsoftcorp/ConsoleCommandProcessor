@@ -14,13 +14,15 @@ namespace ConsoleCommandProcessor.Library
 
         #region Properties
 
+        public string Name { get; internal set; }
+
         public string Description { get; set; }
 
-        public Func<bool> CanExecute { get; set; }
+        public Func<bool> CanExecute { get; set; } = () => true;
 
         public string CantExecuteMessage { get; set; }
 
-        public Func<Command, Task> Execute { get; set; }
+        public Func<Command, Task> Execute { get; set; } = command => Task.FromResult(0);
 
         public IReadOnlyCollection<Parameter> Parameters { get { return _parameters.Values; } }
 
@@ -33,6 +35,7 @@ namespace ConsoleCommandProcessor.Library
             if (_parameters.ContainsKey(name))
                 throw new DuplicateNameException(name);
 
+            parameter.Name = name;
             _parameters[name] = parameter;
             return this;
         }
@@ -63,8 +66,6 @@ namespace ConsoleCommandProcessor.Library
 
         public Task ExecuteAsync()
         {
-            if (Execute == null)
-                return Task.FromResult(0);
             return Execute(this);
         }
 

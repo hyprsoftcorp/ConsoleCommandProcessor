@@ -12,7 +12,7 @@ namespace ConsoleCommandProcessor.Sample
             const string LoginCommandName = "login";
             const string LogoutCommandName = "logout";
             const string AddUserCommandName = "adduser";
-            const string DeleteUserCommandName = "deluser";
+            const string RemoveUserCommandName = "remuser";
             const string ListUsersCommandName = "listusers";
 
             // Parameters
@@ -40,14 +40,14 @@ namespace ConsoleCommandProcessor.Sample
             {
                 Prompt = "Username",
                 Description = "Username to login with.",
-                ValidateFailedMessage = "Username cannot be null or whitespace.",
+                CantValidateMessage = "Username cannot be null or whitespace.",
                 Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
             }).AddParameter(PasswordParameterName, new Parameter
             {
                 IsPassword = true,
                 Prompt = "Password",
                 Description = "Password to login with.",
-                ValidateFailedMessage = "Password cannot be null or whitespace.",
+                CantValidateMessage = "Password cannot be null or whitespace.",
                 Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
             });
 
@@ -79,25 +79,25 @@ namespace ConsoleCommandProcessor.Sample
             {
                 Prompt = "Username",
                 Description = "Username of the new user.",
-                ValidateFailedMessage = "Username cannot be null or whitespace.",
+                CantValidateMessage = "Username cannot be null or whitespace.",
                 Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
             }).AddParameter(PasswordParameterName, new Parameter
             {
                 IsPassword = true,
                 Prompt = "Password",
                 Description = "Password of the new user.",
-                ValidateFailedMessage = "Password cannot be null or whitespace.",
+                CantValidateMessage = "Password cannot be null or whitespace.",
                 Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
             }).AddParameter(FullnameParameterName, new Parameter
             {
                 Prompt = "Full Name",
                 Description = "Full name of the new user.",
-                ValidateFailedMessage = "Full Name cannot be null or whitespace.",
+                CantValidateMessage = "Full Name cannot be null or whitespace.",
                 Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
             });
 
-            // Delete User
-            manager.AddCommand(DeleteUserCommandName, new Command
+            // Remove User
+            manager.AddCommand(RemoveUserCommandName, new Command
             {
                 Description = "Remove an existing user.",
                 CanExecute = () => service.IsLoggedIn,
@@ -119,8 +119,8 @@ namespace ConsoleCommandProcessor.Sample
             }).AddParameter(UsernameParameterName, new Parameter
             {
                 Prompt = "Username",
-                Description = "Username of an existing user.",
-                ValidateFailedMessage = "Username cannot be null or whitespace.",
+                Description = "Username of an user to remove.",
+                CantValidateMessage = "Username cannot be null or whitespace.",
                 Validate = value => Task.FromResult(!String.IsNullOrWhiteSpace(value))
             });
 

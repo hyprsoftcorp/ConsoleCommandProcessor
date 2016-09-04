@@ -7,6 +7,8 @@ namespace ConsoleCommandProcessor.Library
     {
         #region Properties
 
+        public string Name { get; internal set; }
+
         public bool IsRequired { get; set; } = true;
 
         public bool IsPassword { get; set; }
@@ -15,11 +17,11 @@ namespace ConsoleCommandProcessor.Library
 
         public string Description { get; set; }
 
-        public string ValidateFailedMessage { get; set; }
+        public string CantValidateMessage { get; set; }
 
         public string Value { get; set; }
 
-        public Func<string, Task<bool>> Validate { get; set; }
+        public Func<string, Task<bool>> Validate { get; set; } = parameter => Task.FromResult(true);
 
         #endregion
 

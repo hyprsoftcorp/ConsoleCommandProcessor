@@ -20,9 +20,9 @@ namespace ConsoleCommandProcessor.Library
         {
             // Attempt to retrieve our application defaults from our entry assembly.  Fall back to the executing assembly if needed (i.e. unit tests).
             var assembly = Assembly.GetEntryAssembly() != null ? Assembly.GetEntryAssembly() : Assembly.GetExecutingAssembly();
-            ApplicationTitle = ((AssemblyTitleAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute), false))?.Title;
-            ApplicationVersion = assembly.GetName()?.Version;
-            ApplicationCompany = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyCompanyAttribute), false))?.Company;
+            AppTitle = ((AssemblyTitleAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute), false))?.Title;
+            AppVersion = assembly.GetName()?.Version;
+            AppCompany = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyCompanyAttribute), false))?.Company;
 
             // Help
             AddCommand(HelpCommandName, new Command
@@ -71,11 +71,11 @@ namespace ConsoleCommandProcessor.Library
         public const string ClearCommandName = "clear";
         public const string ExitCommandName = "exit";
 
-        public string ApplicationTitle { get; set; }
+        public string AppTitle { get; set; }
 
-        public Version ApplicationVersion { get; set; }
+        public Version AppVersion { get; set; }
 
-        public string ApplicationCompany { get; set; }
+        public string AppCompany { get; set; }
 
         public IReadOnlyCollection<Command> Commands { get { return _commands.Values; } }
 
@@ -88,6 +88,7 @@ namespace ConsoleCommandProcessor.Library
             if (_commands.ContainsKey(name))
                 throw new DuplicateNameException(name);
 
+            command.Name = name;
             _commands[name] = command;
             return command;
         }
@@ -110,8 +111,8 @@ namespace ConsoleCommandProcessor.Library
 
         public async Task RunAsync()
         {
-            Console.WriteLine($"{ApplicationTitle} Command Line Interface (CLI) Version {ApplicationVersion}");
-            Console.WriteLine($"Copyright © {DateTime.Now.Year} by {ApplicationCompany}.  All rights reserved.\n");
+            Console.WriteLine($"{AppTitle} Command Line Interface (CLI) Version {AppVersion}");
+            Console.WriteLine($"Copyright © {DateTime.Now.Year} by {AppCompany}.  All rights reserved.\n");
             Console.WriteLine($"Type '{HelpCommandName}' to list available commands.  Commands are case sensitive.");
             Command command = null;
             while (command != _commands[ExitCommandName])
@@ -133,27 +134,31 @@ namespace ConsoleCommandProcessor.Library
                                     parameter.Value = parameter.IsPassword ? ReadPassword('*') : Console.ReadLine();
                                 }
                                 if (await command.ValidateAsync())
+                                {
                                     await command.ExecuteAsync();
+                                    Console.WriteLine();
+                                }
                                 else
                                 {
                                     Console.WriteLine("Invalid command parameter values detected.  Please try again.");
                                     foreach (var parameter in command.Parameters)
                                     {
                                         if (!await parameter.ValidateAsync())
-                                            Console.WriteLine($"* {parameter.ValidateFailedMessage}");
+                                            Console.WriteLine($"* {parameter.CantValidateMessage}");
                                     }
+                                    Console.WriteLine();
                                 }
                             }   // valid command?
                             else
-                                Console.WriteLine($"This command is not valid in the current state.  Reason: {command.CantExecuteMessage}");
+                                Console.WriteLine($"This command is not valid in the current state.  Reason: {command.CantExecuteMessage}\n");
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Unexpected error.  Details: {ex.Message}");
+                            Console.WriteLine($"Unexpected error.  Details: {ex.Message}\n");
                         }
                     }   // recognized command?
                     else
-                        Console.WriteLine("Invalid command.");
+                        Console.WriteLine($"Invalid command.  Type '{HelpCommandName}' to list available commands.  Commands are case sensitive.\n");
                 }   // valid input?
             }   // main program loop
             Console.WriteLine("Exiting.");
