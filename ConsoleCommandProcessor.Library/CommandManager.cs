@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleCommandProcessor.Library
 {
+    /// <summary>
+    /// Represents helper functions for a console command line interface processing application.
+    /// </summary>
     public class CommandManager
     {
         #region Fields
@@ -16,6 +19,9 @@ namespace ConsoleCommandProcessor.Library
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandManager"/> class. 
+        /// </summary>
         public CommandManager()
         {
             // Attempt to retrieve our application defaults from our entry assembly.  Fall back to the executing assembly if needed (i.e. unit tests).
@@ -28,7 +34,6 @@ namespace ConsoleCommandProcessor.Library
             AddCommand(HelpCommandName, new Command
             {
                 Description = "Displays application command usage.",
-                CanExecute = () => true,
                 Execute = command =>
                 {
                     Console.WriteLine("Commands and Parameters:");
@@ -47,7 +52,6 @@ namespace ConsoleCommandProcessor.Library
             AddCommand(ClearCommandName, new Command
             {
                 Description = "Clears the console window.",
-                CanExecute = () => true,
                 Execute = command =>
                 {
                     Console.Clear();
@@ -58,8 +62,7 @@ namespace ConsoleCommandProcessor.Library
             // Exit
             AddCommand(ExitCommandName, new Command
             {
-                Description = "Exits the application.",
-                CanExecute = () => { return true; }
+                Description = "Exits the application."
             });
         }
 
@@ -67,22 +70,55 @@ namespace ConsoleCommandProcessor.Library
 
         #region Properties
 
+        /// <summary>
+        /// Gets the command name for the built-in help command.
+        /// </summary>
         public const string HelpCommandName = "help";
+
+        /// <summary>
+        /// Gets the command name for the built-in clear command.
+        /// </summary>
         public const string ClearCommandName = "clear";
+
+        /// <summary>
+        /// Gets the command name for the built-in exit command.
+        /// </summary>
         public const string ExitCommandName = "exit";
 
+        /// <summary>
+        /// Gets or sets the application title displayed when the command manager's <see cref="RunAsync"/> is invoked.
+        /// </summary>
+        /// <remarks>The default value is the <see cref="AssemblyTitleAttribute"/> value in the AssemblyInfo.cs of the entry assembly.</remarks>
         public string AppTitle { get; set; }
 
+        /// <summary>
+        /// Gets or sets the application version displayed when the command manager's <see cref="RunAsync"/> is invoked.
+        /// </summary>
+        /// <remarks>The default value is the <see cref="AssemblyVersionAttribute"/> value in the AssemblyInfo.cs of the entry assembly.</remarks>
         public Version AppVersion { get; set; }
 
+        /// <summary>
+        /// Gets or sets the application company name displayed when the command manager's <see cref="RunAsync"/> is invoked.
+        /// </summary>
+        /// <remarks>The default value is the <see cref="AssemblyCompanyAttribute"/> value in the AssemblyInfo.cs of the entry assembly.</remarks>
         public string AppCompany { get; set; }
 
+        /// <summary>
+        /// Gets the commands available for this Command Manager.
+        /// </summary>
         public IReadOnlyCollection<Command> Commands { get { return _commands.Values; } }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Adds a <see cref="Command"/> to this Command Manager.
+        /// </summary>
+        /// <param name="name">The name of the command.</param>
+        /// <param name="command">The command instance to add.</param>
+        /// <returns>The command instance added.</returns>
+        /// <exception cref="DuplicateNameException">Throw when the command is already available in this Command Manager.</exception>
         public Command AddCommand(string name, Command command)
         {
             if (_commands.ContainsKey(name))
@@ -93,6 +129,11 @@ namespace ConsoleCommandProcessor.Library
             return command;
         }
 
+        /// <summary>
+        /// Removes a <see cref="Command"/> from this Command Manager.
+        /// </summary>
+        /// <param name="name">The name of the command to remove.</param>
+        /// <returns>The command removed if found; otherwise null.</returns>
         public Command RemoveCommand(string name)
         {
             Command command = null;
@@ -104,16 +145,25 @@ namespace ConsoleCommandProcessor.Library
             return command;
         }
 
+        /// <summary>
+        /// Get's a specified <see cref="Command"/> by name.
+        /// </summary>
+        /// <param name="name">The name of the command.</param>
+        /// <returns>The command for the specified name if found; otherwise null.</returns>
         public Command GetCommand(string name)
         {
             return _commands.ContainsKey(name) ? _commands[name] : null;
         }
 
+        /// <summary>
+        /// Starts the main command processing loop.  Quits when the 'exit' command is executed.
+        /// </summary>
+        /// <returns>A asynchronous operation <see cref="Task"/>.</returns>
         public async Task RunAsync()
         {
             Console.WriteLine($"{AppTitle} Command Line Interface (CLI) Version {AppVersion}");
             Console.WriteLine($"Copyright © {DateTime.Now.Year} by {AppCompany}.  All rights reserved.\n");
-            Console.WriteLine($"Type '{HelpCommandName}' to list available commands.  Commands are case sensitive.");
+            Console.WriteLine($"Type '{HelpCommandName}' to list available commands.  Commands are case sensitive.\n");
             Command command = null;
             while (command != _commands[ExitCommandName])
             {

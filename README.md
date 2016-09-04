@@ -1,10 +1,9 @@
-# ConsoleCommandProcessor
-A helper library for console command line interfaces (CLI).  This library provides the following functionality:
+# Console Command Processor
+A helper library for console command line interface (CLI) applications.  This library provides the following functionality:
 
 1. All asynchronous API.
-2. Main program loop for command processing.
-3. Command validation.
-4. Parameter validation.
+2. Main program loop for command and parameter validation and processing.
+3. Command state and parameter validation.
 
 ## Hello World Code Sample
 ```csharp
