@@ -1,5 +1,5 @@
 # Console Command Processor
-A helper library for console command line interface (CLI) applications.  This library provides the following functionality:
+A helper library for console command processing applications.  This library provides the following functionality:
 
 1. All asynchronous API.
 2. Main program loop for command and parameter validation and processing.
