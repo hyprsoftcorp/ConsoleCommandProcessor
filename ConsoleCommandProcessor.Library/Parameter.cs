@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace ConsoleCommandProcessor.Library
 {
     /// <summary>
-    /// Represents a command parameter in a console command line interface processing application.
+    /// Represents a command parameter in a console command processing application.
     /// </summary>
     public class Parameter
     {

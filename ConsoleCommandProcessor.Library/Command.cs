@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace ConsoleCommandProcessor.Library
 {
     /// <summary>
-    /// Represents a command in a console command line interface processing application.
+    /// Represents a command in a console command processing application.
     /// </summary>
     public class Command
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ConsoleCommandProcessor.Library
 {
     /// <summary>
-    /// Represents helper functions for a console command line interface processing application.
+    /// Represents helper functions for a console command processing application.
     /// </summary>
     public class CommandManager
     {
@@ -161,7 +161,7 @@ namespace ConsoleCommandProcessor.Library
         /// <returns>A asynchronous operation <see cref="Task"/>.</returns>
         public async Task RunAsync()
         {
-            Console.WriteLine($"{AppTitle} Command Line Interface (CLI) Version {AppVersion}");
+            Console.WriteLine($"{AppTitle} Version {AppVersion}");
             Console.WriteLine($"Copyright © {DateTime.Now.Year} by {AppCompany}.  All rights reserved.\n");
             Console.WriteLine($"Type '{HelpCommandName}' to list available commands.  Commands are case sensitive.\n");
             Command command = null;
