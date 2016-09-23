@@ -14,7 +14,7 @@ namespace ConsoleCommandProcessor.Tests
             var manager = new CommandManager();
 
             Assert.AreEqual(manager.AppCompany, "Hyprsoft Corporation");
-            Assert.AreEqual(manager.AppVersion, new System.Version("1.0.0.0"));
+            Assert.AreEqual(manager.AppVersion, new System.Version("1.0.0.1"));
             Assert.AreEqual(manager.AppTitle, "Console Command Processor Library");
 
             Assert.AreEqual(3, manager.Commands.Count);
