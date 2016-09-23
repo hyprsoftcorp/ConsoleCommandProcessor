@@ -2,8 +2,10 @@
 A helper library for console command processing applications.  This library provides the following functionality:
 
 1. All asynchronous API.
-2. Main program loop for command and parameter validation and processing.
-3. Command state and parameter validation.
+2. Main program loop for command and command parameter entry and execution.
+3. Built in command for command and command parameter help.
+3. Automatic command state validation.
+4. Automatic command parameter value validation.
 
 ## Hello World Code Sample
 ```csharp
