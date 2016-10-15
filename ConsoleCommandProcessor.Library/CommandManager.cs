@@ -41,7 +41,7 @@ namespace ConsoleCommandProcessor.Library
                     {
                         Console.WriteLine($"{c.Key} - {c.Value.Description}");
                         foreach (var p in c.Value.Parameters)
-                            Console.WriteLine($"\t{p.Prompt}{(p.IsRequired ? " * " : String.Empty)} - {p.Description}");
+                            Console.WriteLine($"\t{p.Prompt}{(p.IsRequired ? "* " : String.Empty)} - {p.Description}");
                     }
                     Console.WriteLine("\n* Required parameter value.");
                     return Task.FromResult(0);
