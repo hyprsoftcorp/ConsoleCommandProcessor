@@ -14,13 +14,27 @@ namespace ConsoleCommandProcessor.Tests
             var manager = new CommandManager();
 
             Assert.AreEqual(manager.AppCompany, "Hyprsoft Corporation");
-            Assert.AreEqual(manager.AppVersion, new System.Version("1.0.0.1"));
+            Assert.AreEqual(manager.AppVersion, new System.Version("1.0.0.2"));
             Assert.AreEqual(manager.AppTitle, "Console Command Processor Library");
 
             Assert.AreEqual(3, manager.Commands.Count);
             Assert.AreEqual(CommandManager.HelpCommandName, manager.GetCommand(CommandManager.HelpCommandName).Name);
             Assert.AreEqual(CommandManager.ClearCommandName, manager.GetCommand(CommandManager.ClearCommandName).Name);
             Assert.AreEqual(CommandManager.ExitCommandName, manager.GetCommand(CommandManager.ExitCommandName).Name);
+            Assert.IsNull(manager.Startup);
+            Assert.IsNull(manager.Shutdown);
+        }
+
+        [TestMethod]
+        public void CommandManagerStartupShutdown()
+        {
+            var manager = new CommandManager(() => Task.FromResult(0), null);
+            Assert.IsNotNull(manager.Startup);
+            Assert.IsNull(manager.Shutdown);
+
+            manager = new CommandManager(null, () => Task.FromResult(0));
+            Assert.IsNull(manager.Startup);
+            Assert.IsNotNull(manager.Shutdown);
         }
 
         [TestMethod]

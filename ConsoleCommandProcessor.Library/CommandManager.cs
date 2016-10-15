@@ -66,6 +66,17 @@ namespace ConsoleCommandProcessor.Library
             });
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandManager"/> class with an optional startup and/or shutdown callbacks. 
+        /// </summary>
+        /// <param name="startup">The callback invoked before starting the main command processing loop.  Null can be passed as this parameter.</param>
+        /// <param name="shutdown">The callback invoked after exiting the main command processing loop.  Null can be passed as this parameter.</param>
+        public CommandManager(Func<Task> startup, Func<Task> shutdown) : this()
+        {
+            Startup = startup;
+            Shutdown = shutdown;
+        }
+
         #endregion
 
         #region Properties
@@ -107,6 +118,16 @@ namespace ConsoleCommandProcessor.Library
         /// Gets the commands available for this Command Manager.
         /// </summary>
         public IReadOnlyCollection<Command> Commands { get { return _commands.Values; } }
+
+        /// <summary>
+        /// Gets the callback invoked before starting the main command processing loop.
+        /// </summary>
+        public Func<Task> Startup { get; private set; }
+
+        /// <summary>
+        /// Gets the callback invoked after exiting the main command processing loop.
+        /// </summary>
+        public Func<Task> Shutdown { get; private set; }
 
         #endregion
 
@@ -164,6 +185,8 @@ namespace ConsoleCommandProcessor.Library
             Console.WriteLine($"{AppTitle} Version {AppVersion}");
             Console.WriteLine($"Copyright © {DateTime.Now.Year} by {AppCompany}.  All rights reserved.\n");
             Console.WriteLine($"Type '{HelpCommandName}' to list available commands.  Commands are case sensitive.\n");
+            if (Startup != null)
+                await Startup();
             Command command = null;
             while (command != _commands[ExitCommandName])
             {
@@ -212,6 +235,8 @@ namespace ConsoleCommandProcessor.Library
                 }   // valid input?
             }   // main program loop
             Console.WriteLine("Exiting.");
+            if (Shutdown != null)
+                await Shutdown();
         }
 
         private static string ReadPassword(char mask)
