@@ -6,7 +6,7 @@ namespace Hyprsoft.ConsoleCommandProcessor.Sample
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Commands
             const string LoginCommandName = "login";
@@ -139,7 +139,7 @@ namespace Hyprsoft.ConsoleCommandProcessor.Sample
                 }
             });
 
-            Task.Run(async () => await manager.RunAsync()).Wait();
+            await manager.RunAsync();
         }
     }
 }
