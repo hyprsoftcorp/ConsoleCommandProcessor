@@ -9,8 +9,9 @@
     <Copyright>Copyright © 2019 by Hyprsoft Corporation</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>http://www.hyprsoft.com/</PackageProjectUrl>
-    <Version>2.0.1.0</Version>
+    <Version>2.0.2</Version>
     <LangVersion>7.3</LangVersion>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
 
   <ItemGroup>
