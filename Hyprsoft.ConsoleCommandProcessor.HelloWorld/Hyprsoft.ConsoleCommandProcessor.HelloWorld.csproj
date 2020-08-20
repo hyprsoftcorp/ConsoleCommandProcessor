@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Hyprsoft Corporation</Authors>
     <Company>Hyprsoft Corporation</Company>
     <Product>Console Command Processor Hello World Sample</Product>
-    <Copyright>Copyright © 2019 by Hyprsoft Corporation</Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>http://www.hyprsoft.com/</PackageProjectUrl>
-    <Version>2.0.2</Version>
-    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <Copyright>Copyright © 2020 by Hyprsoft Corporation</Copyright>
+    <PackageProjectUrl>https://www.hyprsoft.com/</PackageProjectUrl>
+    <Version>2.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

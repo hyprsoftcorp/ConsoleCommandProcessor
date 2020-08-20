@@ -2,16 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Hyprsoft Corporation</Authors>
     <Company>Hyprsoft Corporation</Company>
     <Product>Console Command Processor Sample</Product>
-    <Copyright>Copyright © 2019 by Hyprsoft Corporation</Copyright>
+    <Copyright>Copyright © 2020 by Hyprsoft Corporation</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>http://www.hyprsoft.com/</PackageProjectUrl>
-    <Version>2.0.2</Version>
-    <LangVersion>7.3</LangVersion>
-    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <PackageProjectUrl>https://www.hyprsoft.com/</PackageProjectUrl>
+    <Version>2.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

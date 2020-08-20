@@ -6,10 +6,10 @@
     <Authors>Hyprsoft Corporation</Authors>
     <Company>Hyprsoft Corporation</Company>
     <Product>Console Command Processor Library</Product>
-    <Copyright>Copyright © 2019 by Hyprsoft Corporation</Copyright>
+    <Copyright>Copyright © 2020 by Hyprsoft Corporation</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>http://www.hyprsoft.com/</PackageProjectUrl>
-    <Version>2.0.1.0</Version>
+    <PackageProjectUrl>https://www.hyprsoft.com/</PackageProjectUrl>
+    <Version>2.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
